@@ -41,7 +41,7 @@
         android:label="fragment_feed"
         tools:layout="@layout/fragment_feed" >
         <action
-            android:id="@+id/action_feedFragment_to_adviseFragment"
+            android:id="@+id/action_feedFragment_to_adviseFragment3"
             app:destination="@id/adviseFragment" />
     </fragment>
     <fragment
@@ -57,5 +57,9 @@
         android:id="@+id/adviseFragment"
         android:name="com.example.myadvisor.AdviseFragment"
         android:label="fragment_advise"
-        tools:layout="@layout/fragment_advise" />
+        tools:layout="@layout/fragment_advise" >
+        <argument
+            android:name="adviseId"
+            app:argType="string" />
+    </fragment>
 </navigation>

@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import com.example.myadvisor.MyApplication;
@@ -32,7 +33,7 @@ public class Advise {
     public final static String ADVISE_LAST_UPDATED = "AdviseLastUpdated";
 
     public Advise(){}
-
+    @Ignore
     public Advise(@NonNull String id, String name, String description, String photoUrl) {
         this.id = id;
         this.name = name;

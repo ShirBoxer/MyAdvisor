@@ -26,6 +26,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+
 public class FeedFragment extends Fragment {
     LiveData<List<Advise>> advisesList;
     ProgressBar progressBar;
@@ -49,13 +50,18 @@ public class FeedFragment extends Fragment {
 
         MyAdapter adapter = new MyAdapter();
         recyclerView.setAdapter(adapter);
+        advisesList = viewModel.getAdvisesList();
+
         //Select row listener
         adapter.setOnItemClickListener((int position)->{
-            FeedFragmentDirections.ActionFeedFragmentToAdviseFragment action = FeedFragmentDirections.ActionFeedFragmentToAdviseFragment(position);
-           Navigation.findNavController(view).navigate(action);
+            Log.d("TAG","HERE");
+            String adviseId = advisesList.getValue().get(position).getId();
+            Log.d("TAG",adviseId);
+            FeedFragmentDirections.ActionFeedFragmentToAdviseFragment3 action = FeedFragmentDirections.actionFeedFragmentToAdviseFragment3(adviseId);
+            Navigation.findNavController(view).navigate(action);
         });
 
-        advisesList = viewModel.getAdvisesList();
+
 
         BottomNavigationView navBar = getActivity().findViewById(R.id.bottom_navigation);
         navBar.setVisibility(View.VISIBLE);
