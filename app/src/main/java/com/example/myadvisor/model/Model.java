@@ -64,7 +64,6 @@ public class Model {
 
     public LiveData<List<Advise>> getAllAdvises(){
         advisesLoadingState.setValue(LoadingState.loading);
-
         // Read the local last update time
         Long localLastUpdate = Advise.getLocalLastUpdateTime();
         // get all updates from firebase
@@ -82,16 +81,24 @@ public class Model {
                 Advise.setLocalLastUpdateTime(lastUpdate);
                 // post => update on the main thread for the observers
                 advisesLoadingState.postValue(LoadingState.loaded);
-
-
                 //read all the data from the local DB already happen while insertion.
                 //LiveData gets update automatically
             });
-
-
         });
-
         return allAdvises;
+    }
+
+    public LiveData<List<Advise>> getAllUserAdvises(String owner){
+        getAllAdvises();
+        LiveData<List<Advise>> t = AppLocalDB.db.adviseDao().getAllByOwner(owner);
+        System.out.println(owner);
+        if (t.getValue() != null)
+            System.out.println(t.getValue().size());
+        else
+            System.out.println("null");
+
+        return t;
+
     }
 
     public void saveAdvise(Advise advise, OnCompleteListener listener){

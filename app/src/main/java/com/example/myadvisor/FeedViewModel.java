@@ -18,4 +18,5 @@ public class FeedViewModel extends ViewModel {
     public LiveData<List<Advise>> getAdvisesList() {
         return AdvisesList;
     }
+
 }

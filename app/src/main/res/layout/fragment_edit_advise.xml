@@ -55,4 +55,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edit_advise_f_image_iv" />
 
+    <ImageButton
+        android:id="@+id/edit_advise_f_add_pic_btn"
+        android:layout_width="59dp"
+        android:layout_height="48dp"
+        android:src="@drawable/ic_add"
+        app:layout_constraintBottom_toBottomOf="@+id/edit_advise_f_image_iv"
+        app:layout_constraintStart_toEndOf="@+id/edit_advise_f_image_iv" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

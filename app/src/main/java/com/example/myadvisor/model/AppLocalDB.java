@@ -6,7 +6,7 @@ import androidx.room.RoomDatabase;
 
 import com.example.myadvisor.MyApplication;
 
-@Database(entities = {Advise.class}, version = 2)
+@Database(entities = {Advise.class}, version = 3)
 abstract class AppLocalDbRepository extends RoomDatabase {
     public abstract AdviseDao adviseDao();
 }

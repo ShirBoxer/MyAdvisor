@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import android.provider.MediaStore;
 import android.util.Log;
@@ -28,7 +29,7 @@ import static com.example.myadvisor.AddAdviseFragment.REQUEST_IMAGE_CAPTURE;
 public class ProfileFragment extends Fragment {
     TextView nameTv;
     TextView phoneNumTv;
-    Button advisesBtn;
+    Button myAdvisesBtn;
     Button logoutBtn;
     Button deleteAccountBtn;
     ImageView userImgIv;
@@ -44,7 +45,7 @@ public class ProfileFragment extends Fragment {
 
         nameTv = view.findViewById(R.id.profile_f_user_name_tv);
         phoneNumTv = view.findViewById(R.id.profile_f_phone_tv);
-        advisesBtn = view.findViewById(R.id.profile_f_advises_btn);
+        myAdvisesBtn = view.findViewById(R.id.profile_f_advises_btn);
         logoutBtn = view.findViewById(R.id.profile_f_logout_btn);
         deleteAccountBtn = view.findViewById(R.id.profile_f_delete_btn);
         userImgIv = view.findViewById(R.id.profile_f_user_img_iv);
@@ -65,6 +66,11 @@ public class ProfileFragment extends Fragment {
             takePicture();
         });
 
+        myAdvisesBtn.setOnClickListener((v)->{
+            ProfileFragmentDirections.ActionProfileFragmentToUserAdvisesFragment action =
+                    ProfileFragmentDirections.actionProfileFragmentToUserAdvisesFragment(Model.instance.getAuthManager().getCurrentUser().getEmail());
+            Navigation.findNavController(view).navigate(action);
+        });
 
 
         return view;

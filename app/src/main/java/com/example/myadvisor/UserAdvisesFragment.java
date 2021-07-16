@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,41 +26,34 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 
-public class FeedFragment extends Fragment {
-    LiveData<List<Advise>> advisesList;
+public class UserAdvisesFragment extends Fragment {
+    LiveData<List<Advise>> userAdvisesList;
     ProgressBar progressBar;
     SwipeRefreshLayout swipeRefresh;
-    FeedViewModel viewModel;
+    UserAdvisesViewModel viewModel;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_feed, container, false);
+        View view = inflater.inflate(R.layout.fragment_user_advises, container, false);
+        viewModel = new ViewModelProvider(this).get(UserAdvisesViewModel.class);
 
-        viewModel = new ViewModelProvider(this).get(FeedViewModel.class);
-
-        RecyclerView recyclerView = view.findViewById(R.id.feed_advises_f_recycler);
+        RecyclerView recyclerView = view.findViewById(R.id.user_advises_f_recycler);
         //better performance
         recyclerView.setHasFixedSize(true);
 
         RecyclerView.LayoutManager manager = new LinearLayoutManager(this.getContext());
         recyclerView.setLayoutManager(manager);
 
-        MyAdapter adapter = new MyAdapter();
+        UserAdvisesFragment.MyAdapter adapter = new UserAdvisesFragment.MyAdapter();
         recyclerView.setAdapter(adapter);
-        advisesList = viewModel.getAdvisesList();
+        userAdvisesList = viewModel.getUserAdvisesList();
 
-
-        // if we navigate from profile to myAdvises
-        //String userEmail = FeedFragmentArgs.fromBundle(getArguments()).getUserId();
-        //if(!"null".equals(userEmail))
-         //   advisesList = Model.instance.getAllByOwner(userEmail);
-
-        //Select row listener
         adapter.setOnItemClickListener((int position)->{
-            String adviseId = advisesList.getValue().get(position).getId();
-            FeedFragmentDirections.ActionFeedFragmentToAdviseFragment3 action = FeedFragmentDirections.actionFeedFragmentToAdviseFragment3(adviseId);
+            String adviseId = userAdvisesList.getValue().get(position).getId();
+            UserAdvisesFragmentDirections.ActionUserAdvisesFragmentToAdviseFragment action =
+                    UserAdvisesFragmentDirections.actionUserAdvisesFragmentToAdviseFragment(adviseId);
             Navigation.findNavController(view).navigate(action);
         });
 
@@ -69,8 +61,7 @@ public class FeedFragment extends Fragment {
 
         BottomNavigationView navBar = getActivity().findViewById(R.id.bottom_navigation);
         navBar.setVisibility(View.VISIBLE);
-
-        swipeRefresh = view.findViewById(R.id.feed_advises_f_swiperefresh);
+        swipeRefresh = view.findViewById(R.id.user_advises_f_swiperefresh);
         swipeRefresh.setOnRefreshListener(() -> {
             Model.instance.getAllAdvises();
             ; //TODO: CREATE REFRESH FUNCTION IN THE VIEWMODEL OBJECT
@@ -79,8 +70,10 @@ public class FeedFragment extends Fragment {
         setupProgressListener();
         // observe liveData object on start and resume
         // notify adapter when posts list arrive
-        viewModel.getAdvisesList()
+        viewModel.getUserAdvisesList()
                 .observe(getViewLifecycleOwner(), (aPList) -> adapter.notifyDataSetChanged());
+
+
         return view;
     }
 
@@ -104,17 +97,17 @@ public class FeedFragment extends Fragment {
     // Breaking inner connection between parent to this class
     // Saving layout components for further use.
     static class MyViewHolder extends RecyclerView.ViewHolder {
-        OnItemClickListener listener;
+        UserAdvisesFragment.OnItemClickListener listener;
         TextView stateTv;
         TextView descriptionTv;
-        ImageView albumIv;
+        ImageView picIv;
 
 
-        public MyViewHolder(@NonNull View itemView, OnItemClickListener listener) {
+        public MyViewHolder(@NonNull View itemView, UserAdvisesFragment.OnItemClickListener listener) {
             super(itemView);
             stateTv = itemView.findViewById(R.id.advise_list_row_header);
             descriptionTv = itemView.findViewById(R.id.advise_list_row_description);
-            albumIv = itemView.findViewById(R.id.advise_list_row_img);
+            picIv = itemView.findViewById(R.id.advise_list_row_img);
             this.listener = listener;
             itemView.setOnClickListener((v)->{
                 if(listener != null){
@@ -132,14 +125,14 @@ public class FeedFragment extends Fragment {
         public void bind(Advise advise) {
             stateTv.setText(advise.getName());
             descriptionTv.setText(advise.getDescription());
-            albumIv.setImageResource(R.drawable.ic_menu_gallery);
+            picIv.setImageResource(R.drawable.ic_menu_gallery);
             String url = advise.getPhotoUrl();
             if ((url != null) && (!url.equals(""))) {
                 Picasso.get()
                         .load(url)
                         .placeholder(R.drawable.ic_menu_gallery)
                         .error(R.drawable.ic_menu_gallery)
-                        .into(albumIv);
+                        .into(picIv);
             }
         }
     }
@@ -148,24 +141,24 @@ public class FeedFragment extends Fragment {
         void onClick(int position);
     }
     // Managing View logic.
-    class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
-        OnItemClickListener listener;
+    class MyAdapter extends RecyclerView.Adapter<UserAdvisesFragment.MyViewHolder> {
+        UserAdvisesFragment.OnItemClickListener listener;
 
-        public void setOnItemClickListener(OnItemClickListener listener){
+        public void setOnItemClickListener(UserAdvisesFragment.OnItemClickListener listener){
             this.listener = listener;
         }
 
         @NonNull
         @Override
-        public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        public UserAdvisesFragment.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View view = getLayoutInflater().inflate(R.layout.advise_list_row, parent, false);
-            MyViewHolder holder = new MyViewHolder(view, listener);
+            UserAdvisesFragment.MyViewHolder holder = new UserAdvisesFragment.MyViewHolder(view, listener);
             return holder;
         }
 
         @Override
-        public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-            Advise advise = advisesList.getValue().get(position);
+        public void onBindViewHolder(@NonNull UserAdvisesFragment.MyViewHolder holder, int position) {
+            Advise advise = userAdvisesList.getValue().get(position);
             holder.bind(advise);
 
         }
@@ -173,10 +166,9 @@ public class FeedFragment extends Fragment {
         // get number of
         @Override
         public int getItemCount() {
-            List<Advise> sl = advisesList.getValue();
+            List<Advise> sl = userAdvisesList.getValue();
             return (sl == null) ? 0 : sl.size();
         }
     }
-
 
 }

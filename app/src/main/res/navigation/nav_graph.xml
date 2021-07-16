@@ -78,5 +78,21 @@
         android:id="@+id/profileFragment"
         android:name="com.example.myadvisor.ProfileFragment"
         android:label="fragment_profile"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_profileFragment_to_userAdvisesFragment"
+            app:destination="@id/userAdvisesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/userAdvisesFragment"
+        android:name="com.example.myadvisor.UserAdvisesFragment"
+        android:label="fragment_user_advises"
+        tools:layout="@layout/fragment_user_advises" >
+        <argument
+            android:name="userEmail"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_userAdvisesFragment_to_adviseFragment"
+            app:destination="@id/adviseFragment" />
+    </fragment>
 </navigation>
