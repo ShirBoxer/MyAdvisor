@@ -1,10 +1,12 @@
 package com.example.myadvisor;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
@@ -20,6 +22,7 @@ import android.widget.ProgressBar;
 import com.example.myadvisor.model.Advise;
 import com.example.myadvisor.model.Model;
 
+import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 
 
@@ -62,10 +65,8 @@ public class AddAdviseFragment extends Fragment {
         return view;
     }
     private void takePicture(){
-
-        Intent takePictureIntent = new Intent(
-                MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+        Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(takePicture, REQUEST_IMAGE_CAPTURE);
 
     }
 
@@ -73,8 +74,6 @@ public class AddAdviseFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-
         if (requestCode == REQUEST_IMAGE_CAPTURE){
             if (resultCode == RESULT_OK){
                 Bundle extras = data.getExtras();
@@ -82,6 +81,7 @@ public class AddAdviseFragment extends Fragment {
                 addPictureBtn.setImageBitmap(imageBitmap);
             }
         }
+
 
     }
 
@@ -106,13 +106,14 @@ public class AddAdviseFragment extends Fragment {
         String description = descriptionEt.getText().toString().trim();
         String photoUrl;
         String id = System.currentTimeMillis() + "";
+        String owner = Model.instance.getAuthManager().getCurrentUser().getEmail();
         if (url == null)
             photoUrl = "";
         else
             photoUrl = url;
 
         //TODO: take uid from ModelFirebase!!!!
-        Advise advise = new Advise(id, name, description, photoUrl);
+        Advise advise = new Advise(id, name, description, photoUrl, owner);
         //Post post = new Post(id, description, "New Advise Created By" + FirebaseAuth.getInstance().getCurrentUser().getDisplayName(), photoUrl);
 
         Model.instance.saveAdvise(advise, ()->{

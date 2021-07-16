@@ -66,7 +66,7 @@ public class FeedFragment extends Fragment {
         BottomNavigationView navBar = getActivity().findViewById(R.id.bottom_navigation);
         navBar.setVisibility(View.VISIBLE);
 
-        swipeRefresh = view.findViewById(R.id.feed_f_swiperefresh);
+        swipeRefresh = view.findViewById(R.id.favorite_f_swiperefresh);
         swipeRefresh.setOnRefreshListener(() -> {
             Model.instance.getAllAdvises();
             ; //TODO: CREATE REFRESH FUNCTION IN THE VIEWMODEL OBJECT

@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/selectableItemBackground"
-    tools:context=".FeedFragment">
+    tools:context=".FavoriteFragment">
     <!-- selectable color appearance -->
     <TextView
         android:id="@+id/stam_header2"

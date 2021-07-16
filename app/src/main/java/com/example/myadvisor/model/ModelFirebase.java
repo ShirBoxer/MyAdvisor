@@ -71,6 +71,7 @@ public class ModelFirebase {
 
 
 
+
     /* ################################# ---  Advise CRUD  --- ################################# */
 
     public interface GetAllAdvisesListener{
@@ -106,6 +107,12 @@ public class ModelFirebase {
                 .set(advise.toJson())
                 .addOnSuccessListener((v) -> listener.onComplete())
                 .addOnFailureListener((e) -> listener.onComplete());
+    }
+    public static void deleteAdvise(Advise advise, Model.OnCompleteListener listener) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection(adviseCollection).document(advise.getId()).delete()
+                .addOnSuccessListener((v) -> listener.onComplete())
+                .addOnFailureListener((e) -> listener.onComplete());;
     }
 
 

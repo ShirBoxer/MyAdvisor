@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg_main"
+    android:visibility="visible"
     tools:context=".AdviseFragment">
 
     <TextView
@@ -48,11 +49,13 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:text="Edit"
+        android:visibility="invisible"
         app:cornerRadius="100sp"
         app:layout_constraintEnd_toStartOf="@+id/advise_f_delete_btn"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/advise_f_image_iv" />
+        app:layout_constraintTop_toBottomOf="@+id/advise_f_image_iv"
+        tools:visibility="invisible" />
 
     <Button
         android:id="@+id/advise_f_delete_btn"
@@ -60,10 +63,12 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:text="Delete"
+        android:visibility="invisible"
         app:cornerRadius="100sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/advise_f_edit_btn"
-        app:layout_constraintTop_toBottomOf="@+id/advise_f_image_iv" />
+        app:layout_constraintTop_toBottomOf="@+id/advise_f_image_iv"
+        tools:visibility="invisible" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,6 +5,8 @@ import android.graphics.Bitmap;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -99,11 +101,26 @@ public class Model {
 
     }
 
+    public void deleteAdvise(Advise advise, OnCompleteListener listener){
+        advisesLoadingState.setValue(LoadingState.loading);
+        ModelFirebase.deleteAdvise(advise, ()->{
+            getAllAdvises();
+            listener.onComplete();
+        });
+        executorService.execute(()->{
+            AppLocalDB.db.adviseDao().delete(advise);
+        });
+    }
+
 
     /* ################################# ---  Utils  --- ################################# */
 
     public void uploadImage(Bitmap imageBmp, String name, final UploadImageListener listener) {
         ModelFirebase.uploadImage(imageBmp, name, listener);
+    }
+
+    public FirebaseAuth getAuthManager(){
+        return ModelFirebase.getFirebaseAuth();
     }
 
 

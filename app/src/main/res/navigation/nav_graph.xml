@@ -61,5 +61,22 @@
         <argument
             android:name="adviseId"
             app:argType="string" />
+        <action
+            android:id="@+id/action_adviseFragment_to_editAdviseFragment2"
+            app:destination="@id/editAdviseFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/favoriteFragment"
+        android:name="com.example.myadvisor.FavoriteFragment"
+        android:label="fragment_favorite"
+        tools:layout="@layout/fragment_favorite" />
+    <fragment
+        android:id="@+id/editAdviseFragment2"
+        android:name="com.example.myadvisor.EditAdviseFragment"
+        android:label="fragment_edit_advise"
+        tools:layout="@layout/fragment_edit_advise" >
+        <argument
+            android:name="adviseId"
+            app:argType="string" />
     </fragment>
 </navigation>

@@ -24,22 +24,25 @@ public class Advise {
     String description;
     String photoUrl;
     Long lastUpdated;
+    String owner;
 
     final static String ID = "id";
     final static String NAME = "name";
     final static String DESCRIPTION = "description";
     final static String PHOTO_URL = "photoUrl";
     final static String LAST_UPDATED = "lastUpdated";
+    final static String OWNER = "owner";
     public final static String ADVISE_LAST_UPDATED = "AdviseLastUpdated";
 
     public Advise(){}
     @Ignore
-    public Advise(@NonNull String id, String name, String description, String photoUrl) {
+    public Advise(@NonNull String id, String name, String description, String photoUrl, String owner) {
+        this.lastUpdated = System.currentTimeMillis();
         this.id = id;
         this.name = name;
         this.description = description;
         this.photoUrl = photoUrl;
-        this.lastUpdated = System.currentTimeMillis();
+        this.owner = owner;
     }
 
     static public void setLocalLastUpdateTime(Long timestamp){
@@ -62,6 +65,7 @@ public class Advise {
         json.put(PHOTO_URL, photoUrl);
         json.put(ID, id);
         json.put(LAST_UPDATED, FieldValue.serverTimestamp());
+        json.put(OWNER, owner);
         return json;
     }
 
@@ -71,6 +75,7 @@ public class Advise {
         a.setDescription((String) json.get(DESCRIPTION));
         a.setPhotoUrl((String) json.get(PHOTO_URL));
         a.setName((String) json.get(NAME));
+        a.setOwner((String) json.get(OWNER));
         Timestamp ts = (Timestamp) json.get(LAST_UPDATED);
         if (ts != null)
             a.setLastUpdated(ts.getSeconds());
@@ -84,6 +89,14 @@ public class Advise {
     @NonNull
     public String getId() {
         return id;
+    }
+
+    public void setOwner(String owner) {
+        this.owner = owner;
+    }
+
+    public String getOwner() {
+        return owner;
     }
 
     public String getName() {
