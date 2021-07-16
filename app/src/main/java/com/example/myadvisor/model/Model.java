@@ -17,6 +17,7 @@ public class Model {
 
     private Model() {}
 
+
     public enum LoadingState {
         loading,
         loaded,
@@ -45,7 +46,6 @@ public class Model {
     }
 
 
-
     /* ################################# ---  User CRUD  --- ################################# */
 
     public void addUser(final User user, final OnCompleteListener listener){
@@ -56,7 +56,9 @@ public class Model {
         ModelFirebase.getUser(listener);
     }
 
-
+    public void setUserProfileImage(String url, OnCompleteListener listener) {
+        ModelFirebase.setUserProfileImage(url, listener);
+    }
 
     /* ################################# ---  Advise CRUD  --- ################################# */
 
@@ -110,6 +112,20 @@ public class Model {
         executorService.execute(()->{
             AppLocalDB.db.adviseDao().delete(advise);
         });
+        advisesLoadingState.setValue(LoadingState.loaded);
+    }
+
+    public void updateAdvise(Advise advise, OnCompleteListener listener){
+        advisesLoadingState.setValue(LoadingState.loading);
+        ModelFirebase.saveAdvise(advise, ()->{
+            getAllAdvises();
+            listener.onComplete();
+        });
+        executorService.execute(()->{
+            AppLocalDB.db.adviseDao().insertAll(advise);
+        });
+
+        advisesLoadingState.setValue(LoadingState.loaded);
     }
 
 

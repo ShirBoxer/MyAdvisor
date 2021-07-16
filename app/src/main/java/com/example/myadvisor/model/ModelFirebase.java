@@ -26,6 +26,7 @@ import java.util.List;
 
 public class ModelFirebase {
     final static String adviseCollection = "advises";
+    final static String usersCollection = "users";
     final static String PHOTOS = "photos";
 
 
@@ -39,7 +40,7 @@ public class ModelFirebase {
 
     public static void addUser(User user, final Model.OnCompleteListener listener) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("users").document(user.getId())
+        db.collection(usersCollection).document(user.getId())
                 .set(user.toMap()).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
@@ -56,7 +57,7 @@ public class ModelFirebase {
     }
 
     public static void getUser(final Model.GetUserListener listener){
-        FirebaseFirestore.getInstance().collection(adviseCollection)
+        FirebaseFirestore.getInstance().collection(usersCollection)
                 .document(ModelFirebase.getFirebaseAuth().getCurrentUser().getEmail())
                 .get().addOnCompleteListener((@NonNull Task<DocumentSnapshot> task)->{
             if(task.isSuccessful() && (task.getResult() != null)){
@@ -67,6 +68,15 @@ public class ModelFirebase {
             }
             listener.onComplete(null);
         });
+    }
+
+    public static void setUserProfileImage(String url, Model.OnCompleteListener listener) {
+        FirebaseFirestore.getInstance().collection(usersCollection)
+                .document(ModelFirebase.getFirebaseAuth().getCurrentUser().getEmail())
+                .update("imageUrl", url)
+                .addOnCompleteListener((@NonNull Task<Void> task)->{
+                    listener.onComplete();
+                });
     }
 
 
@@ -108,6 +118,7 @@ public class ModelFirebase {
                 .addOnSuccessListener((v) -> listener.onComplete())
                 .addOnFailureListener((e) -> listener.onComplete());
     }
+
     public static void deleteAdvise(Advise advise, Model.OnCompleteListener listener) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection(adviseCollection).document(advise.getId()).delete()

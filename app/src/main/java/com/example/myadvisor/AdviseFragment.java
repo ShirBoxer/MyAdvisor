@@ -1,6 +1,5 @@
 package com.example.myadvisor;
 
-import android.graphics.Bitmap;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -34,8 +33,8 @@ public class AdviseFragment extends Fragment {
         // Inflate the layout for this fragment
 
         View view =  inflater.inflate(R.layout.fragment_advise, container, false);
-        headerTv = view.findViewById(R.id.advise_f_header_tv);
-        descriptionTv =  view.findViewById(R.id.advise_f_description_tv);
+        headerTv = view.findViewById(R.id.edit_advise_f_header_et);
+        descriptionTv =  view.findViewById(R.id.edit_advise_f_description_et);
         adviseImageIv =  view.findViewById(R.id.advise_f_image_iv);
         editBtn =  view.findViewById(R.id.advise_f_edit_btn);
         deleteBtn =  view.findViewById(R.id.advise_f_delete_btn);

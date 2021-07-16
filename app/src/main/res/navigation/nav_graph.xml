@@ -66,11 +66,6 @@
             app:destination="@id/editAdviseFragment2" />
     </fragment>
     <fragment
-        android:id="@+id/favoriteFragment"
-        android:name="com.example.myadvisor.FavoriteFragment"
-        android:label="fragment_favorite"
-        tools:layout="@layout/fragment_favorite" />
-    <fragment
         android:id="@+id/editAdviseFragment2"
         android:name="com.example.myadvisor.EditAdviseFragment"
         android:label="fragment_edit_advise"
@@ -79,4 +74,9 @@
             android:name="adviseId"
             app:argType="string" />
     </fragment>
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.example.myadvisor.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" />
 </navigation>
