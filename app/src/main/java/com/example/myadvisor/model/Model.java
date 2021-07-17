@@ -26,8 +26,11 @@ public class Model {
 
     /* Data Members & Interfaces */
     public MutableLiveData<LoadingState> advisesLoadingState = new MutableLiveData<LoadingState>(LoadingState.loaded);
-
     LiveData<List<Advise>> allAdvises = AppLocalDB.db.adviseDao().getAll();
+
+    public MutableLiveData<LoadingState> userAdvisesLoadingState = new MutableLiveData<LoadingState>(LoadingState.loaded);
+    LiveData<List<Advise>> allUserAdvises = AppLocalDB.db.adviseDao().getAllByOwner(getAuthManager().getCurrentUser().getEmail());
+
 
 
 
@@ -67,7 +70,7 @@ public class Model {
         // Read the local last update time
         Long localLastUpdate = Advise.getLocalLastUpdateTime();
         // get all updates from firebase
-        ModelFirebase.getAllAdvises(localLastUpdate,(advises)->{
+        ModelFirebase.getAllAdvises(localLastUpdate,null, (advises)->{
             executorService.execute(()->{
                 Long lastUpdate = new Long(0);
                 for(Advise a: advises) {
@@ -88,17 +91,30 @@ public class Model {
         return allAdvises;
     }
 
-    public LiveData<List<Advise>> getAllUserAdvises(String owner){
-        getAllAdvises();
-        LiveData<List<Advise>> t = AppLocalDB.db.adviseDao().getAllByOwner(owner);
-        System.out.println(owner);
-        if (t.getValue() != null)
-            System.out.println(t.getValue().size());
-        else
-            System.out.println("null");
-
-        return t;
-
+    public LiveData<List<Advise>> getAllUserAdvises(){
+        userAdvisesLoadingState.setValue(LoadingState.loading);
+        // Read the local last update time
+        Long localLastUpdate = Advise.getLocalLastUpdateTime();
+        // get all updates from firebase
+        ModelFirebase.getAllAdvises(localLastUpdate,getAuthManager().getCurrentUser().getEmail(),(advises)->{
+            executorService.execute(()-> {
+                Long lastUpdate = new Long(0);
+                for (Advise a : advises) {
+                    // update the local db with the new records
+                    AppLocalDB.db.adviseDao().insertAll(a);
+                    //update the local last update time
+                    if (lastUpdate < a.getLastUpdated()) {
+                        lastUpdate = a.getLastUpdated();
+                    }
+                }
+                Advise.setLocalLastUpdateTime(lastUpdate);
+                // post => update on the main thread for the observers
+                userAdvisesLoadingState.postValue(LoadingState.loaded);
+                //read all the data from the local DB already happen while insertion.
+                //LiveData gets update automatically
+            });
+        });
+        return allUserAdvises;
     }
 
     public void saveAdvise(Advise advise, OnCompleteListener listener){

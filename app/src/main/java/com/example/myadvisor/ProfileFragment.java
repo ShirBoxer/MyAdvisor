@@ -67,9 +67,7 @@ public class ProfileFragment extends Fragment {
         });
 
         myAdvisesBtn.setOnClickListener((v)->{
-            ProfileFragmentDirections.ActionProfileFragmentToUserAdvisesFragment action =
-                    ProfileFragmentDirections.actionProfileFragmentToUserAdvisesFragment(Model.instance.getAuthManager().getCurrentUser().getEmail());
-            Navigation.findNavController(view).navigate(action);
+            Navigation.findNavController(view).navigate(R.id.action_profileFragment_to_userAdvisesFragment);
         });
 
 

@@ -12,10 +12,10 @@ import java.util.List;
 
 @Dao
 public interface AdviseDao {
-    @Query("select * from Advise ORDER BY lastUpdated")
+    @Query("select * from Advise ORDER BY lastUpdated DESC")
     LiveData<List<Advise>> getAll();
 
-    @Query("SELECT * FROM Advise WHERE owner LIKE '%' || :filter || '%'")
+    @Query("SELECT * FROM Advise WHERE owner LIKE :filter ORDER BY lastUpdated DESC")
     LiveData<List<Advise>> getAllByOwner(String filter);
 
     //if id already exist replace her.

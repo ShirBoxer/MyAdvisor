@@ -12,7 +12,7 @@ public class UserAdvisesViewModel extends ViewModel {
     LiveData<List<Advise>> UserAdvisesList;
 
     public UserAdvisesViewModel() {
-        this.UserAdvisesList = Model.instance.getAllUserAdvises(Model.instance.getAuthManager().getCurrentUser().getEmail());
+        this.UserAdvisesList = Model.instance.getAllUserAdvises();
     }
 
     public LiveData<List<Advise>> getUserAdvisesList() {

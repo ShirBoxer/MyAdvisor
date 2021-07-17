@@ -88,7 +88,7 @@ public class ModelFirebase {
         public void onComplete(List<Advise> advises);
     }
 
-    public static void getAllAdvises(Long since, GetAllAdvisesListener listener){
+    public static void getAllAdvises(Long since, String owner, GetAllAdvisesListener listener){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         db.collection(adviseCollection)
@@ -100,7 +100,9 @@ public class ModelFirebase {
                     public void onComplete(@NonNull Task<QuerySnapshot> task){
                         if(task.isSuccessful()){
                             for (QueryDocumentSnapshot document : task.getResult()){
-                                list.add(Advise.createAdvise(document.getData()));
+                                Advise advise = Advise.createAdvise(document.getData());
+                                if(owner == null || advise.getOwner().equals(owner))
+                                    list.add(advise);
                             }
                         }else{
 

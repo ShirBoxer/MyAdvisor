@@ -88,11 +88,8 @@
         android:name="com.example.myadvisor.UserAdvisesFragment"
         android:label="fragment_user_advises"
         tools:layout="@layout/fragment_user_advises" >
-        <argument
-            android:name="userEmail"
-            app:argType="string" />
         <action
-            android:id="@+id/action_userAdvisesFragment_to_adviseFragment"
+            android:id="@+id/action_userAdvisesFragment_to_adviseFragment2"
             app:destination="@id/adviseFragment" />
     </fragment>
 </navigation>

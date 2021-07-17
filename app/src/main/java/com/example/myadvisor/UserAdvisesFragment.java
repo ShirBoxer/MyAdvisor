@@ -43,6 +43,7 @@ public class UserAdvisesFragment extends Fragment {
         //better performance
         recyclerView.setHasFixedSize(true);
 
+
         RecyclerView.LayoutManager manager = new LinearLayoutManager(this.getContext());
         recyclerView.setLayoutManager(manager);
 
@@ -50,10 +51,12 @@ public class UserAdvisesFragment extends Fragment {
         recyclerView.setAdapter(adapter);
         userAdvisesList = viewModel.getUserAdvisesList();
 
+
+        // from recycler view item to the item (advise fragment)
         adapter.setOnItemClickListener((int position)->{
             String adviseId = userAdvisesList.getValue().get(position).getId();
-            UserAdvisesFragmentDirections.ActionUserAdvisesFragmentToAdviseFragment action =
-                    UserAdvisesFragmentDirections.actionUserAdvisesFragmentToAdviseFragment(adviseId);
+            UserAdvisesFragmentDirections.ActionUserAdvisesFragmentToAdviseFragment2 action =
+                    UserAdvisesFragmentDirections.actionUserAdvisesFragmentToAdviseFragment2(adviseId);
             Navigation.findNavController(view).navigate(action);
         });
 
