@@ -11,13 +11,16 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 
 import com.example.myadvisor.model.Advise;
 import com.example.myadvisor.model.Model;
@@ -34,7 +37,7 @@ public class AddAdviseFragment extends Fragment {
     ProgressBar pb;
     static final int REQUEST_IMAGE_CAPTURE = 1;
     Bitmap imageBitmap;
-
+    Spinner spinner;
     View view;
 
     @Override
@@ -46,11 +49,20 @@ public class AddAdviseFragment extends Fragment {
         nameEt = view.findViewById(R.id.add_advise_f_name_et);
         descriptionEt = view.findViewById(R.id.add_advise_f_description_et);
         createBtn = view.findViewById(R.id.add_advise_f_create_btn);
+        spinner = view.findViewById(R.id.add_advise_spinner);
 
-
-        addPictureBtn.setOnClickListener((v)->{
-            takePicture();
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(MyApplication.context,R.array.condition,android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        spinner.setOnItemClickListener((adapterView, view, position, id)->{
+            Object item = adapterView.getItemAtPosition(position);
+            if(item != null){
+                Log.d("ITEM", item.toString());
+            }
         });
+//        addPictureBtn.setOnClickListener((v)->{
+//            takePicture();
+//        });
 
 
         createBtn.setOnClickListener((v)->{

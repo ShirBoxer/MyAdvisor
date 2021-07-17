@@ -40,6 +40,7 @@ public class FeedFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_feed, container, false);
 
         viewModel = new ViewModelProvider(this).get(FeedViewModel.class);
+        //view.findViewById(R.id.bottom_navigation).setVisibility(View.VISIBLE);
 
         RecyclerView recyclerView = view.findViewById(R.id.feed_advises_f_recycler);
         //better performance

@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.myadvisor.model.ModelFirebase;
@@ -24,6 +25,7 @@ public class LoginFragment extends Fragment {
     Button loginBtn;
     EditText emailEt;
     EditText passwordEt;
+    ProgressBar pb;
 
 
     @Override
@@ -34,8 +36,11 @@ public class LoginFragment extends Fragment {
         loginBtn = view.findViewById(R.id.login_f_login_btn);
         emailEt = view.findViewById(R.id.login_f_email);
         passwordEt = view.findViewById(R.id.login_f_password);
+        pb = view.findViewById(R.id.login_f_pb);
 
         loginBtn.setOnClickListener((v)->{
+            pb.setVisibility(View.VISIBLE);
+            loginBtn.setEnabled(false);
             String email = emailEt.getText().toString().trim();
             String password = passwordEt.getText().toString().trim();
             if(email.isEmpty() || !email.matches(emailPattern)){
@@ -57,6 +62,7 @@ public class LoginFragment extends Fragment {
                             Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_feedFragment);
                         } else{
                             //TODO : toast?
+                            loginBtn.setEnabled(true);
                             Toast.makeText(getContext(), "Error! " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
                             Log.d("TAG", "fail");
                         }

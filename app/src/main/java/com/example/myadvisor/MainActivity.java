@@ -28,7 +28,9 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationView = findViewById(R.id.bottom_navigation);
         NavigationUI.setupWithNavController(bottomNavigationView,navController);
 
-        //bottomNavigationView.setVisibility(View.GONE); TODO: DELETE THIS LINE COMMENT
+        bottomNavigationView.setVisibility(View.GONE);
+
+        
 
     }
     @Override

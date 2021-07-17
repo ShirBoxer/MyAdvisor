@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.myadvisor.model.Model;
@@ -31,6 +32,7 @@ public class RegisterFragment extends Fragment {
     EditText phone;
     Button regBtn;
     String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+    ProgressBar pb;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -44,6 +46,7 @@ public class RegisterFragment extends Fragment {
         password2=view.findViewById(R.id.register_f_password2);
         regBtn=view.findViewById(R.id.register_f_reg_btn);
         phone=view.findViewById(R.id.register_f_phone);
+        pb = view.findViewById(R.id.register_f_pb);
 
         regBtn.setOnClickListener((v) -> {
             String name=fullName.getText().toString().trim();
@@ -84,6 +87,10 @@ public class RegisterFragment extends Fragment {
                 password.setError("Password must be at least 6 characters long");
                 return;
             }
+            pb.setVisibility(View.VISIBLE);
+            regBtn.setEnabled(false);
+
+
             //TODO: more checks
 
             ModelFirebase.getFirebaseAuth().createUserWithEmailAndPassword(mail, pass1).addOnCompleteListener((@NonNull Task<AuthResult> task)->{
@@ -101,6 +108,7 @@ public class RegisterFragment extends Fragment {
                 }
 
                 else {
+                    regBtn.setEnabled(true);
                     Log.d("TAG", "failed to creat a new user");
                     Toast.makeText(getContext(), "Aawwww.. something went wrong, please try again", Toast.LENGTH_LONG).show();
                 }
