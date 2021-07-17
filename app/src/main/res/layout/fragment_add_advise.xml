@@ -24,11 +24,11 @@
         android:layout_height="29dp"
         android:background="@drawable/round_border"
         android:spinnerMode="dropdown"
-        app:layout_constraintBottom_toBottomOf="@+id/add_advise_f_img_btn"
-        app:layout_constraintEnd_toStartOf="@+id/add_advise_f_img_btn" />
+        app:layout_constraintBottom_toBottomOf="@+id/add_advise_f_img_iv"
+        app:layout_constraintEnd_toStartOf="@+id/add_advise_f_img_iv" />
 
     <ImageView
-        android:id="@+id/add_advise_f_img_btn"
+        android:id="@+id/add_advise_f_img_iv"
         android:layout_width="144dp"
         android:layout_height="114dp"
         android:layout_marginTop="24dp"
@@ -45,6 +45,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="24dp"
         android:ems="10"
         android:inputType="textPersonName"
@@ -52,7 +53,7 @@
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/add_advise_f_img_btn" />
+        app:layout_constraintTop_toBottomOf="@+id/add_advise_f_img_iv" />
 
     <EditText
         android:id="@+id/add_advise_f_description_et"
@@ -80,4 +81,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/add_advise_f_description_et" />
+
+    <Button
+        android:id="@+id/add_advise_f_add_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:text="Add"
+        app:cornerRadius="10sp"
+        app:layout_constraintBottom_toBottomOf="@+id/add_advise_f_img_iv"
+        app:layout_constraintStart_toEndOf="@+id/add_advise_f_img_iv" />
 </androidx.constraintlayout.widget.ConstraintLayout>

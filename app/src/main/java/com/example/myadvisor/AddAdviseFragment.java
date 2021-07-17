@@ -1,12 +1,10 @@
 package com.example.myadvisor;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
@@ -15,22 +13,23 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 
 import com.example.myadvisor.model.Advise;
 import com.example.myadvisor.model.Model;
 
-import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 
 
 public class AddAdviseFragment extends Fragment {
-    ImageButton addPictureBtn;
+    ImageView PictureIv ;
+    Button addAdviseBtn;
     EditText nameEt;
     EditText descriptionEt;
     Button createBtn;
@@ -45,24 +44,33 @@ public class AddAdviseFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_add_advise, container, false);
-        addPictureBtn = view.findViewById(R.id.add_advise_f_img_btn);
+        PictureIv = view.findViewById(R.id.add_advise_f_img_iv);
         nameEt = view.findViewById(R.id.add_advise_f_name_et);
         descriptionEt = view.findViewById(R.id.add_advise_f_description_et);
         createBtn = view.findViewById(R.id.add_advise_f_create_btn);
+        addAdviseBtn = view.findViewById(R.id.add_advise_f_add_btn);
         spinner = view.findViewById(R.id.add_advise_spinner);
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(MyApplication.context,R.array.condition,android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
-        spinner.setOnItemClickListener((adapterView, view, position, id)->{
-            Object item = adapterView.getItemAtPosition(position);
-            if(item != null){
-                Log.d("ITEM", item.toString());
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Object item = parent.getItemAtPosition(position);
+                if(item != null){
+                    Log.d("ITEM", item.toString());
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
             }
         });
-//        addPictureBtn.setOnClickListener((v)->{
-//            takePicture();
-//        });
+        addAdviseBtn.setOnClickListener((v)->{
+            takePicture();
+        });
 
 
         createBtn.setOnClickListener((v)->{
@@ -90,7 +98,7 @@ public class AddAdviseFragment extends Fragment {
             if (resultCode == RESULT_OK){
                 Bundle extras = data.getExtras();
                 imageBitmap = (Bitmap) extras.get("data");
-                addPictureBtn.setImageBitmap(imageBitmap);
+                PictureIv.setImageBitmap(imageBitmap);
             }
         }
 
@@ -100,7 +108,7 @@ public class AddAdviseFragment extends Fragment {
     void save(){
         //pb.setVisibility(View.VISIBLE);
         createBtn.setEnabled(false);
-        addPictureBtn.setEnabled(false);
+        //addPictureBtn.setEnabled(false);
 
         if(imageBitmap != null){
             Model.instance.uploadImage(imageBitmap, nameEt.getText().toString(), (url) ->{
