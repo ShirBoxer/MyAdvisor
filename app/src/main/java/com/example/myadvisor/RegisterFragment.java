@@ -47,6 +47,9 @@ public class RegisterFragment extends Fragment {
         regBtn=view.findViewById(R.id.register_f_reg_btn);
         phone=view.findViewById(R.id.register_f_phone);
         pb = view.findViewById(R.id.register_f_pb);
+        //User logged out & rolled back to main fragment
+        if (MainActivity.bottomNavigationView != null)
+            MainActivity.bottomNavigationView.setVisibility(View.GONE);
 
         regBtn.setOnClickListener((v) -> {
             String name=fullName.getText().toString().trim();

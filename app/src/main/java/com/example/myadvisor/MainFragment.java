@@ -21,7 +21,9 @@ public class MainFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
         loginBtn = view.findViewById(R.id.main_f_login);
         registerBtn = view.findViewById(R.id.main_f_register);
-
+        //User logged out & rolled back to main fragment
+        if (MainActivity.bottomNavigationView != null)
+            MainActivity.bottomNavigationView.setVisibility(View.GONE);
         registerBtn.setOnClickListener((v)->Navigation.findNavController(view).navigate(R.id.action_mainFragment_to_registerFragment));
 
 

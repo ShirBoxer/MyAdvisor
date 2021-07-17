@@ -18,7 +18,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity {
-    BottomNavigationView bottomNavigationView;
+    public static BottomNavigationView bottomNavigationView;
     NavController navController;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

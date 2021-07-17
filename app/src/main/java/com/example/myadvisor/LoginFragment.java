@@ -1,8 +1,10 @@
 package com.example.myadvisor;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
@@ -13,9 +15,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.myadvisor.model.Model;
 import com.example.myadvisor.model.ModelFirebase;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 
@@ -26,6 +32,8 @@ public class LoginFragment extends Fragment {
     EditText emailEt;
     EditText passwordEt;
     ProgressBar pb;
+    TextView registerTv;
+    TextView forgotPassTv;
 
 
     @Override
@@ -37,6 +45,16 @@ public class LoginFragment extends Fragment {
         emailEt = view.findViewById(R.id.login_f_email);
         passwordEt = view.findViewById(R.id.login_f_password);
         pb = view.findViewById(R.id.login_f_pb);
+        registerTv = view.findViewById(R.id.loginfrag_register);
+        forgotPassTv = view.findViewById(R.id.loginFrag_forgotPassword);
+
+        //User logged out & rolled back to main fragment
+        if (MainActivity.bottomNavigationView != null)
+            MainActivity.bottomNavigationView.setVisibility(View.GONE);
+
+        registerTv.setOnClickListener((v)->{
+            Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_registerFragment);
+        });
 
         loginBtn.setOnClickListener((v)->{
             pb.setVisibility(View.VISIBLE);
@@ -67,6 +85,46 @@ public class LoginFragment extends Fragment {
                             Log.d("TAG", "fail");
                         }
                     });
+        });
+
+        forgotPassTv.setOnClickListener((v)->{
+            EditText resetMail=new EditText(v.getContext());
+            AlertDialog.Builder passwordRestDialog=new AlertDialog.Builder(v.getContext());
+            passwordRestDialog.setTitle("Reset password ?");
+            passwordRestDialog.setMessage("Enter Your Email To Receive Reset Link");
+            passwordRestDialog.setView(resetMail);
+
+            passwordRestDialog.setPositiveButton("Send", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    //extract the email and sent reset link
+                    String mail=resetMail.getText().toString();
+                    Model.instance.getAuthManager().sendPasswordResetEmail(mail).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Toast.makeText(getContext(),"Reset Link Sent To Your Email",Toast.LENGTH_LONG).show();
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(getContext(),"Error ! Reset Link did not Sent !",Toast.LENGTH_LONG).show();
+                            Log.d("PASSWORD", "Reset password  failed: " + e.getMessage());
+
+                        }
+                    });
+
+                }
+            } );
+
+            passwordRestDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    //close the dialog
+                }
+            });
+            passwordRestDialog.create().show();
+
+
         });
         return view;
     }

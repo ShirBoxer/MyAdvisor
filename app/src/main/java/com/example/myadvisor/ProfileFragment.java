@@ -71,6 +71,17 @@ public class ProfileFragment extends Fragment {
         });
 
 
+        logoutBtn.setOnClickListener((v)->{
+            Model.instance.signOut();
+            Navigation.findNavController(view).navigate(R.id.action_profileFragment_to_mainFragment);
+        });
+
+        deleteAccountBtn.setOnClickListener((v)->{
+            Model.instance.deleteAccount();
+            Navigation.findNavController(view).navigate(R.id.action_profileFragment_to_mainFragment);
+
+        });
+
         return view;
     }
 

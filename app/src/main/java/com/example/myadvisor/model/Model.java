@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -16,6 +17,8 @@ public class Model {
     private ExecutorService executorService = Executors.newSingleThreadExecutor();
 
     private Model() {}
+
+
 
 
     public enum LoadingState {
@@ -61,6 +64,14 @@ public class Model {
 
     public void setUserProfileImage(String url, OnCompleteListener listener) {
         ModelFirebase.setUserProfileImage(url, listener);
+    }
+
+    public void signOut(){
+        ModelFirebase.getFirebaseAuth().signOut();
+    }
+
+    public void deleteAccount() {
+        ModelFirebase.getFirebaseAuth().getCurrentUser().delete();
     }
 
     /* ################################# ---  Advise CRUD  --- ################################# */
